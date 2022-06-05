@@ -31,7 +31,7 @@ void combinationSort(int height, int width, RGBTRIPLE image[height][width]) {
     }
 
     // sort each row in the image
-    selectionSort(height, width, newIm)
+    selectionSort(height, width, newIm);
 
     // declare a new linear array to store our "universally" sorted list
     HSVTRIPLE finIm[height * width];
@@ -84,11 +84,11 @@ void selectionSort(int height, int width, HSVTRIPLE image[height][width]) {
     for (int i = 0; i < height; i++) {
         // for each j index, find the minimum in range [j,width) and swap with j
         for (int j = 0; j < width; j++) {
-            int index = findMin(j, width, newIm[i]);
+            int index = findMin(j, width, image[i]);
             if (index > j) {
-                HSVTRIPLE tmp = newIm[i][j];
-                newIm[i][j] = newIm[i][index];
-                newIm[i][index] = tmp;
+                HSVTRIPLE tmp = image[i][j];
+                image[i][j] = image[i][index];
+                image[i][index] = tmp;
             }
         }
     }
@@ -113,8 +113,10 @@ HSVTRIPLE rgbHSV(RGBTRIPLE px) {
     double cMax = max(max(px.rgbtRed, px.rgbtGreen), px.rgbtBlue);
     double cMin = min(min(px.rgbtRed, px.rgbtGreen), px.rgbtBlue);
     newPx.hue = getHue(px, cMax, cMin);
-    newPx.sat = 0.85; //getSat(px, cMax, cMin);
-    newPx.val = 1; //cMax / 255.0;
+
+    // regularize saturation and value
+    newPx.sat = 0.85;
+    newPx.val = 1;
     return newPx;
 }
 
