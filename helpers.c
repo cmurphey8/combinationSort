@@ -15,7 +15,6 @@ HSVTRIPLE rgbHSV(RGBTRIPLE px);
 int max(int x, int y);
 int min(int x, int y);
 double getHue(RGBTRIPLE px, double cMax, double cMin);
-double getSat(RGBTRIPLE px, double cMax, double cMin);
 
 RGBTRIPLE hsvRGB(HSVTRIPLE px);
 
@@ -47,11 +46,9 @@ void combinationSort(int height, int width, RGBTRIPLE image[height][width]) {
         // make the comparison
         int k = findMinIndex(height, width, newIm, index);
 
-        // load the minimum
-        finIm[i] = newIm[k][index[k]];
+        // WE DO: load the next minimum into our linearized array
 
-        // update the index for that row
-        index[k]++;
+        // WE DO: update the index for that row
     }
 
     // convert image from hsv to rgb
@@ -60,15 +57,16 @@ void combinationSort(int height, int width, RGBTRIPLE image[height][width]) {
             image[i][j] = hsvRGB(finIm[i * width + j]);
         }
     }
-
-    return;
 }
 
 // returns the (0 indexed) row number that contains the next minimum we will add to our sorted array
 int findMinIndex(int height, int width, HSVTRIPLE image[height][width], int index[height]) {
-    int min = image[0][index[0]].hue;
+    // YOU DO: find a good first value to initialize min
+    int min;
     int ret = 0;
-    // TODO
+
+    // YOU DO: store the row index that contains the next minimum in ret
+
     return ret;
 }
 
@@ -143,14 +141,6 @@ double getHue(RGBTRIPLE px, double cMax, double cMin) {
     if (cMax == px.rgbtGreen) return (int) (60.0 * ((px.rgbtBlue - px.rgbtRed) / dx) + 120) % 360;
     if (cMax == px.rgbtBlue) return (int) (60.0 * ((px.rgbtRed - px.rgbtGreen) / dx) + 240) % 360;
     return 0.0;
-}
-
-// helper function to convert rgb to hsv
-double getSat(RGBTRIPLE px, double cMax, double cMin) {
-    if (cMax < 0.0001) {
-        return 0.0;
-    }
-    return (cMax - cMin) / cMax;
 }
 
 RGBTRIPLE hsvRGB(HSVTRIPLE px) {
