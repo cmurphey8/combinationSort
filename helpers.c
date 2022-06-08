@@ -8,8 +8,8 @@
     -------------------------------------------------------------------------------------------------------------------------------------  */
 
 void selectionSort(int height, int width, HSVTRIPLE image[height][width]);
-int findMinIndex(int height, int width, HSVTRIPLE image[height][width], int index[height]);
-int findMin(int start, int width, HSVTRIPLE image[width]);
+int findMinRow(int height, int width, HSVTRIPLE image[height][width], int index[height]);
+int findMinCol(int start, int width, HSVTRIPLE image[width]);
 
 HSVTRIPLE rgbHSV(RGBTRIPLE px);
 int max(int x, int y);
@@ -44,7 +44,7 @@ void combinationSort(int height, int width, RGBTRIPLE image[height][width]) {
     // fill in our linear array with each minimum we find after comparing the earliest remaining index from each row
     for (int i = 0; i < height * width; i++) {
         // make the comparison
-        int k = findMinIndex(height, width, newIm, index);
+        int k = findMinRow(height, width, newIm, index);
 
         // WE DO: load the next minimum into our linearized array
 
@@ -60,7 +60,7 @@ void combinationSort(int height, int width, RGBTRIPLE image[height][width]) {
 }
 
 // returns the (0 indexed) row number that contains the next minimum we will add to our sorted array
-int findMinIndex(int height, int width, HSVTRIPLE image[height][width], int index[height]) {
+int findMinRow(int height, int width, HSVTRIPLE image[height][width], int index[height]) {
     // YOU DO: find a good first value to initialize min
     int min;
     int ret = 0;
@@ -82,7 +82,7 @@ void selectionSort(int height, int width, HSVTRIPLE image[height][width]) {
     for (int i = 0; i < height; i++) {
         // for each j index, find the minimum in range [j,width) and swap with j
         for (int j = 0; j < width; j++) {
-            int index = findMin(j, width, image[i]);
+            int index = findMinCol(j, width, image[i]);
             if (index > j) {
                 HSVTRIPLE tmp = image[i][j];
                 image[i][j] = image[i][index];
@@ -94,7 +94,7 @@ void selectionSort(int height, int width, HSVTRIPLE image[height][width]) {
     return;
 }
 
-int findMin(int start, int width, HSVTRIPLE image[width]) {
+int findMinCol(int start, int width, HSVTRIPLE image[width]) {
     int min = image[start].hue;
     int index = start;
     for (int i = start; i < width; i++) {
